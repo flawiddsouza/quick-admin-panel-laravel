@@ -1,0 +1,30 @@
+{
+    "name": "flawiddsouza/quick-admin-panel-laravel",
+    "description": "Small helpers for laravel for making an admin panel quickly",
+    "keywords": [
+        "laravel"
+    ],
+    "homepage": "https://github.com/flawiddsouza/quick-admin-panel-laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Flawid D'Souza",
+            "email": "me@flawiddsouza.com",
+            "homepage": "https://flawiddsouza.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FlawidDSouza\\QuickAdminPanelLaravel\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
