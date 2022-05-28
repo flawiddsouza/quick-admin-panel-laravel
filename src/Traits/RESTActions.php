@@ -60,7 +60,7 @@ trait RESTActions
         $createdRecord = $m::create(array_merge($request->only(self::FIELDS), $additionalData));
 
         if(method_exists(get_called_class(), 'restActionsAfterCreateHook')) {
-            self::restActionsAfterCreateHook();
+            self::restActionsAfterCreateHook($createdRecord, $request);
         }
 
         return $this->respond(Response::HTTP_CREATED, $createdRecord);
@@ -99,7 +99,7 @@ trait RESTActions
         $model->update(array_merge($request->only(self::FIELDS), $additionalData));
 
         if(method_exists(get_called_class(), 'restActionsAfterUpdateHook')) {
-            self::restActionsAfterUpdateHook();
+            self::restActionsAfterUpdateHook($model, $request);
         }
 
         return $this->respond(Response::HTTP_OK, $model);
