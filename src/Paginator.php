@@ -12,7 +12,7 @@ class Paginator
         if(isset($params['filterColumns']) && isset($request->filter) && $request->filter !== '') {
             $paginator->where(function($where) use($params, $request) {
                 foreach($params['filterColumns'] as $filterColumn) {
-                    $where->orWhere($filterColumn, 'ilike', '%' . $request->filter . '%');
+                    $where->orWhere($filterColumn, 'like', '%' . $request->filter . '%');
                 }
             });
         }
