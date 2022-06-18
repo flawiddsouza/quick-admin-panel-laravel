@@ -116,7 +116,7 @@ trait RESTActions
             $m::destroy($id);
 
             if(method_exists(get_called_class(), 'restActionsAfterDestroyHook')) {
-                self::restActionsAfterDestroyHook();
+                self::restActionsAfterDestroyHook($model);
             }
         } catch(\Throwable $e) {
             return $this->respond(Response::HTTP_BAD_REQUEST, 'Entry in use');
