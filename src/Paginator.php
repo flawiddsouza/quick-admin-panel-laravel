@@ -2,6 +2,8 @@
 
 namespace FlawidDSouza\QuickAdminPanelLaravel;
 
+use FlawidDSouza\QuickAdminPanelLaravel\Excel;
+
 class Paginator
 {
     public static function generate($query, $params, $request)
@@ -26,11 +28,35 @@ class Paginator
             }
         }
 
+        if($request->export) {
+            return static::export($request, $paginator);
+        }
+
         $paginator = $paginator->paginate(50);
 
         return [
             'paginator' => $paginator,
             'unfiltered_total' => $unfilteredTotal
         ];
+    }
+
+    private static function export($request, $m)
+    {
+        ini_set('memory_limit', '-1');
+
+        $fields = json_decode($request->fields, true);
+
+        $rows = $m->get();
+
+        $exportArray = [];
+
+        foreach($rows as $index => $row) {
+            $exportArray[$index] = [];
+            foreach($fields as $field) {
+                $exportArray[$index][] = $row[$field['field']];
+            }
+        }
+
+        return Excel::download(Excel::createSpreadsheetFromArray([array_column($fields, 'label'), ...$exportArray]), 'export.xlsx');
     }
 }
