@@ -6,7 +6,7 @@ use FlawidDSouza\QuickAdminPanelLaravel\Excel;
 
 class Paginator
 {
-    public static function generate($query, $params, $request)
+    public static function generate($query, $params, $request, $transform = null)
     {
         $unfilteredTotal = $query->count();
         $paginator = $query;
@@ -29,10 +29,14 @@ class Paginator
         }
 
         if($request->export) {
-            return static::export($request, $paginator);
+            return static::export($request, $paginator, $transform);
         }
 
         $paginator = $paginator->paginate(50);
+
+        if($transform) {
+            $paginator->getCollection()->transform($transform);
+        }
 
         return [
             'paginator' => $paginator,
@@ -40,13 +44,17 @@ class Paginator
         ];
     }
 
-    private static function export($request, $m)
+    private static function export($request, $m, $transform)
     {
         ini_set('memory_limit', '-1');
 
         $fields = json_decode($request->fields, true);
 
         $rows = $m->get();
+
+        if($transform) {
+            $rows->transform($transform);
+        }
 
         $exportArray = [];
 
